@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Forest Wiki</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      background-color: #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    header nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      background: url('bosque.jpg') no-repeat center center/cover;
+      height: 300px;
+    }
+
+    .hero h1 {
+      font-size: 80px;
+      color: #ffd700;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+    }
+
+    .description {
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+    }
+
+    .contenido {
+      padding: 20px;
+    }
+
+    .contenido h2 {
+   color: #ffd700;
+   margin-bottom: 20px;
+   text-align: center;
+   }
+
+    .cards {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #222;
+      border-radius: 10px;
+      padding: 10px;
+      width: 150px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100px;
+      object-fit: contain;
+    }
+
+    footer {
+      background-color: #111;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div style="color: #ffd700; font-weight: bold;">THE FOREST WIKI</div>
+    <nav>
+      <a href="Index.html">Inicio</a>
+      <a href="Foro.html">Foro</a>
+      <a href="Registro.html">Registrarse</a>
+      <a href="inicio_sesion.html">Iniciar sesión</a>
+      <a href="Mi_cuenta.html">Mi Cuenta</a>
+    
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>THE FOREST WIKI</h1>
+  </div>
+
+  <div class="description">
+    <p>Página Oficial de The Forest. ¡Descubre secretos y comparte tu conocimiento!</p>
+    <a href="Compra.html" style="color: #ffd700; text-decoration: underline;">Compra The Forest</a>
+  </div>
+
+  <div class="contenido">
+    <h2>CONTENIDO THE FOREST</h2>  
+    <div class="cards">
+      <div class="card">
+        <img src="animal.png" alt="Animales">
+        <p>Animales</p>
+      </div>
+      <div class="card">
+        <img src="mapa.png" alt="Mapa">
+        <p>Mapa</p>
+      </div>
+      <div class="card">
+        <img src="enemigos.jpg" alt="Enemigos">
+        <p>Enemigos</p>
+      </div>
+      <div class="card">
+        <img src="construcciones.jpg" alt="Construcciones">
+        <p>Construcciones</p>
+      </div>
+      <div class="card">
+        <img src="plantas.jpg" alt="Plantas">
+        <p>Plantas</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    CALL SUPPORT OR EMAIL | FONO: 222222345 | EMAIL: TFW@WIKIME.COM<br/>
+    COPYRIGHT 2025 THE FOREST WIKI
+  </footer>
+
+</body>
+</html>

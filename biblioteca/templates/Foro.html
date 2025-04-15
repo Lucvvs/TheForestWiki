@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foro - The Forest Wiki</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      background-color: #111;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    header nav a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffd700;
+      margin-bottom: 30px;
+    }
+
+    .post-form {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px #222;
+    }
+
+    .post-form input, .post-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .post-form button {
+      background-color: #ffd700;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .foro-post {
+      background-color: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .foro-post h3 {
+      color: #ffd700;
+      margin-bottom: 5px;
+    }
+
+    .foro-post .respuesta {
+      margin-left: 20px;
+      margin-top: 10px;
+      border-left: 2px solid #333;
+      padding-left: 10px;
+      color: #ccc;
+    }
+
+    footer {
+      background-color: #111;
+      text-align: center;
+      padding: 15px;
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div style="color: #ffd700; font-weight: bold;">THE FOREST WIKI</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="foro.html">Foro</a>
+      <a href="registro.html">Registrarse</a>
+      <a href="inicio_sesion.html">Iniciar Sesión</a>
+      <a href="Mi_cuenta.html">Mi Cuenta</a>
+    
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Foro de la Comunidad</h1>
+
+    <div class="post-form">
+      <h2 style="color: #ffd700;">Publicar una pregunta o comentario</h2>
+      <input type="text" id="autor" placeholder="Tu nombre o usuario">
+      <input type="text" id="titulo" placeholder="Título del tema">
+      <textarea id="contenido" rows="4" placeholder="Escribe tu pregunta, comentario o tema aquí..."></textarea>
+      <button onclick="publicarPost()">Publicar</button>
+    </div>
+
+    <div id="foro-lista">
+      <!-- Publicaciones aparecerán aquí -->
+    </div>
+  </div>
+
+  <footer>
+    CONTACTO: TFW@WIKIME.COM | FONO: 222222345<br/>
+    COPYRIGHT 2025 THE FOREST WIKI
+  </footer>
+
+  <script>
+    function publicarPost() {
+      const autor = document.getElementById('autor').value.trim();
+      const titulo = document.getElementById('titulo').value.trim();
+      const contenido = document.getElementById('contenido').value.trim();
+
+      if (autor && titulo && contenido) {
+        const postHTML = `
+          <div class="foro-post">
+            <h3>${titulo}</h3>
+            <p><strong>${autor}</strong> dice:</p>
+            <p>${contenido}</p>
+            <div class="respuesta"><em>Sin respuestas aún...</em></div>
+          </div>
+        `;
+        const foroLista = document.getElementById('foro-lista');
+        foroLista.insertAdjacentHTML('afterbegin', postHTML);
+
+        document.getElementById('autor').value = '';
+        document.getElementById('titulo').value = '';
+        document.getElementById('contenido').value = '';
+      } else {
+        alert('Por favor completa todos los campos.');
+      }
+    }
+  </script>
+
+</body>
+</html>
+
