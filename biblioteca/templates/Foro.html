@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,11 +27,16 @@
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
+
+    nav a:hover {
+    color: #ffd700; /* color al pasar el mouse */
+  }
 
     .container {
       padding: 20px;
-      max-width: 900px;
+      max-width: 1200px;
       margin: auto;
     }
 
@@ -39,127 +46,239 @@
       margin-bottom: 30px;
     }
 
-    .post-form {
+    .formulario-publicacion {
       background-color: #111;
-      padding: 20px;
       border-radius: 10px;
+      padding: 20px;
       margin-bottom: 30px;
-      box-shadow: 0 0 10px #222;
     }
 
-    .post-form input, .post-form textarea {
+    .formulario-publicacion input,
+    .formulario-publicacion select,
+    .formulario-publicacion textarea {
       width: 100%;
       padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
+      margin-bottom: 15px;
       background-color: #222;
       color: #fff;
-    }
-
-    .post-form button {
-      background-color: #ffd700;
-      color: #000;
-      padding: 10px 20px;
       border: none;
       border-radius: 5px;
+    }
+
+    .formulario-publicacion button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #ffd700;
+      color: #000;
       font-weight: bold;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
+    }
+
+    .foro-lista h2 {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #ffd700;
     }
 
     .foro-post {
       background-color: #111;
-      border: 1px solid #222;
-      border-radius: 10px;
       padding: 15px;
-      margin-bottom: 20px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      margin-bottom: 15px;
     }
 
-    .foro-post h3 {
-      color: #ffd700;
-      margin-bottom: 5px;
+    
+
+/* PUBLICACIONES */ 
+/* PUBLICACIONES */ 
+
+/* PUBLICACIONES */ 
+
+
+.cuadro-publicaciones {
+  background-color: #111;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  min-height: 150px;
+}
+
+.publicaciones-placeholder {
+  border: 1px dashed #444;
+  padding: 20px;
+  text-align: center;
+  color: #ccc;
+  border-radius: 8px;
+}
+
+/* CSS CONTENIDO / CATGEORIAS FORO */
+/* CSS CONTENIDO / CATGEORIAS FORO */
+/* CSS CONTENIDO / CATGEORIAS FORO */
+
+.categorias-foro {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.categorias-foro::-webkit-scrollbar {
+  height: 8px;
+}
+
+.categorias-foro::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.btn-categoria {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  background-color: #222;
+  color: #ffd700;
+  border: 2px solid #444;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-categoria:hover {
+  background-color: #333;
+}
+
+
+
+
+    @media (min-width: 768px) {
+      .formulario-publicacion {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .formulario-publicacion > * {
+        flex: 1 1 100%;
+      }
+
+      .formulario-publicacion input,
+      .formulario-publicacion select,
+      .formulario-publicacion textarea,
+      .formulario-publicacion button {
+        flex: 1 1 100%;
+      }
+
+      .foro-post {
+        max-width: 500px;
+      }
     }
 
-    .foro-post .respuesta {
-      margin-left: 20px;
-      margin-top: 10px;
-      border-left: 2px solid #333;
-      padding-left: 10px;
-      color: #ccc;
-    }
 
-    footer {
-      background-color: #111;
-      text-align: center;
-      padding: 15px;
-      font-size: 12px;
-      color: #aaa;
-      margin-top: 40px;
-    }
   </style>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-  <header>
-    <div style="color: #ffd700; font-weight: bold;">THE FOREST WIKI</div>
+  <header style="background-color: #416e2f65; padding: 10px 20px;">
+    <div style="display: flex; align-items: center; color: #ffd700; font-weight: bold;">
+      <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 40px; margin-right: 10px;">
+      THE FOREST WIKI
+    </div>
     <nav>
-      <a href="index.html">Inicio</a>
-      <a href="foro.html">Foro</a>
-      <a href="registro.html">Registrarse</a>
-      <a href="inicio_sesion.html">Iniciar Sesión</a>
-      <a href="Mi_cuenta.html">Mi Cuenta</a>
-    
+      <a href="{% url 'index' %}">Inicio</a>
+      <a href="{% url 'foro' %}">Foro</a>
+      <a href="{% url 'registro' %}">Registrarse</a>
+      <a href="{% url 'inicio_sesion' %}">Iniciar Sesión</a>
     </nav>
   </header>
 
   <div class="container">
-    <h1>Foro de la Comunidad</h1>
+    <h1 class="Pp0 Pp0-white">🌲Foro Comunidad🌲</h1>
 
-    <div class="post-form">
-      <h2 style="color: #ffd700;">Publicar una pregunta o comentario</h2>
-      <input type="text" id="autor" placeholder="Tu nombre o usuario">
-      <input type="text" id="titulo" placeholder="Título del tema">
-      <textarea id="contenido" rows="4" placeholder="Escribe tu pregunta, comentario o tema aquí..."></textarea>
-      <button onclick="publicarPost()">Publicar</button>
-    </div>
+    <form class="formulario-publicacion">
+      <input type="text" id="autor" placeholder="Nombre Usuario">
+      <select id="categoria">
+        <option value="" disabled selected>Selecciona una categoría</option>
+        <option value="Animales">Animales</option>
+        <option value="Mapa">Mapa</option>
+        <option value="Enemigos">Enemigos</option>
+        <option value="Construcciones">Construcciones</option>
+        <option value="Plantas">Plantas</option>
+        <option value="Comunidad">Comunidad</option>
+        <option value="Comunidad">Bugs</option>
+        <option value="Comunidad">Objetos</option>
 
-    <div id="foro-lista">
-      <!-- Publicaciones aparecerán aquí -->
-    </div>
-  </div>
+      </select>
+      <textarea id="contenido" rows="4" placeholder="Consulta..."></textarea>
+      <button type="button" onclick="publicarPost()">Publicar</button>
+    </form>
+
+    <div class="foro-lista">
+      <h2>Temas / Contenido</h2>
+      <div class="categorias-foro">
+        <button class="btn-categoria" onclick="mostrarSubcategoria('todo')">📚 Todo</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('animales')">🐾 Animales</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('mapa')">🗺️ Mapa</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('enemigos')">👹 Enemigos</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('construcciones')">🏗️ Construcciones</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('plantas')">🌿 Plantas</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('comunidad')">💬 Comunidad</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('bugs')">🐞 Bugs</button>
+        <button class="btn-categoria" onclick="mostrarSubcategoria('bugs')">🛠️ Objetos</button>
+
+      </div>
+
+      <div id="subcategorias" class="cuadro-publicaciones" style="margin-top: 40px;">
+        <h3 style="color: #ffd700;">Publicaciones</h3>
+        <div class="publicaciones-placeholder">
+          <p style="color: #aaa;">Aquí aparecerán las publicaciones de la categoría seleccionada.</p>
+        </div>
+      </div>
+    </div> <!-- cierre de .foro-lista -->
+
+  </div> <!-- ✅ cierre de .container añadido -->
 
   <footer>
-    CONTACTO: TFW@WIKIME.COM | FONO: 222222345<br/>
-    COPYRIGHT 2025 THE FOREST WIKI
+    <div class="footer-imgs">
+      <img src="{% static 'img/facebook.png' %}" alt="Facebook">
+      <img src="{% static 'img/instagram.png' %}" alt="Instagram">
+      <img src="{% static 'img/twitter.png' %}" alt="Twitter">
+    </div>
+    <div class="footer-texto">
+      The Forest Wiki © 2025 - Todos los derechos reservados<br/>
+    </div>
   </footer>
 
   <script>
     function publicarPost() {
       const autor = document.getElementById('autor').value.trim();
-      const titulo = document.getElementById('titulo').value.trim();
+      const categoria = document.getElementById('categoria').value;
       const contenido = document.getElementById('contenido').value.trim();
 
-      if (autor && titulo && contenido) {
+      if (autor && categoria && contenido) {
         const postHTML = `
           <div class="foro-post">
-            <h3>${titulo}</h3>
-            <p><strong>${autor}</strong> dice:</p>
+            <strong>${autor}</strong> - <em>${categoria}</em>
             <p>${contenido}</p>
-            <div class="respuesta"><em>Sin respuestas aún...</em></div>
           </div>
         `;
-        const foroLista = document.getElementById('foro-lista');
-        foroLista.insertAdjacentHTML('afterbegin', postHTML);
-
+        document.getElementById('subcategorias').insertAdjacentHTML('beforeend', postHTML);
         document.getElementById('autor').value = '';
-        document.getElementById('titulo').value = '';
+        document.getElementById('categoria').value = '';
         document.getElementById('contenido').value = '';
       } else {
-        alert('Por favor completa todos los campos.');
+        alert("Por favor, completa todos los campos.");
       }
     }
   </script>
 
 </body>
 </html>
-

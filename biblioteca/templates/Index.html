@@ -1,9 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Forest Wiki</title>
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
@@ -25,12 +30,17 @@
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
+
+    nav a:hover {
+    color: #ffd700; /* color al pasar el mouse */
+  }
 
     .hero {
       position: relative;
       text-align: center;
-      background: url('bosque.jpg') no-repeat center center/cover;
+      background: url("{% static 'img/bosque.jpg' %}") no-repeat center center / cover;
       height: 300px;
     }
 
@@ -55,94 +65,169 @@
     }
 
     .contenido h2 {
-   color: #ffd700;
-   margin-bottom: 20px;
-   text-align: center;
-   }
-
-    .cards {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .card {
-      background-color: #222;
-      border-radius: 10px;
-      padding: 10px;
-      width: 150px;
+      color: #ffd700;
+      margin-bottom: 20px;
       text-align: center;
     }
 
-    .card img {
-      width: 100%;
-      height: 100px;
-      object-fit: contain;
+/* CARTAS DE CONTENIDO STYLE */
+
+.card-custom {
+  background-color: transparent; /* Quita fondo innecesario */
+  border-radius: 12px;
+  overflow: hidden;
+  height: auto;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+.card-custom:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #ffaa00aa;
+}
+
+.card-custom img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-custom p {
+  margin: 0;
+  padding: 10px;
+  font-weight: bold;
+  color: #111;
+  background-color: #ffd700;
+  font-size: 1rem;
+}
+
+
+
+    .boton-compra {
+      display: inline-block;
+      background-color: #ffd700;
+      color: #000;
+      padding: 12px 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    footer {
-      background-color: #111;
-      text-align: center;
-      padding: 20px;
-      font-size: 12px;
-      color: #aaa;
+    .btn-rockstar {
+      background: linear-gradient(to right, #ffcc00, #ffaa00);
+      border: none;
+      color: black;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      font-family: 'Arial Black', Gadget, sans-serif;
+    }
+
+    .btn-rockstar:hover {
+      background: linear-gradient(to right, #ffaa00, #ffcc00);
+      transform: scale(1.05);
+      color: #111;
+    }
+
+    .boton-compra:hover {
+      background-color: #e6c200;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div style="color: #ffd700; font-weight: bold;">THE FOREST WIKI</div>
+  <header style="background-color: #416e2f65; padding: 10px 20px;">
+    <div style="display: flex; align-items: center; color: #ffd700; font-weight: bold;">
+      <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 40px; margin-right: 10px;">
+      THE FOREST WIKI
+    </div>
     <nav>
-      <a href="Index.html">Inicio</a>
-      <a href="Foro.html">Foro</a>
-      <a href="Registro.html">Registrarse</a>
-      <a href="inicio_sesion.html">Iniciar sesión</a>
-      <a href="Mi_cuenta.html">Mi Cuenta</a>
-    
+      <a href="{% url 'index' %}">Inicio</a>
+      <a href="{% url 'foro' %}">Foro</a>
+      <a href="{% url 'registro' %}">Registrarse</a>
+      <a href="{% url 'inicio_sesion' %}">Iniciar Sesión</a>
     </nav>
   </header>
 
   <div class="hero">
-    <h1>THE FOREST WIKI</h1>
+    <h1 class="Pp0">THE FOREST WIKI</h1>
   </div>
 
   <div class="description">
-    <p>Página Oficial de The Forest. ¡Descubre secretos y comparte tu conocimiento!</p>
-    <a href="Compra.html" style="color: #ffd700; text-decoration: underline;">Compra The Forest</a>
+    <p class="Pp1 Pp1-white">Página Oficial de The Forest. ¡Descubre secretos y comparte tu conocimiento!</p>
+    <a href="{% url 'compra' %}" class="boton-compra">Comprar The Forest</a>
   </div>
 
-  <div class="contenido">
-    <h2>CONTENIDO THE FOREST</h2>  
-    <div class="cards">
-      <div class="card">
-        <img src="animal.png" alt="Animales">
-        <p>Animales</p>
+  <div class="contenido container">
+    <h2 class="Pp1">CONTENIDO THE FOREST</h2>  
+    <div class="row g-4 justify-content-center">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="#" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/animal.jpg' %}" alt="Animales">
+          <p>Animales</p>
+        </a>
       </div>
-      <div class="card">
-        <img src="mapa.png" alt="Mapa">
-        <p>Mapa</p>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="#" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/mapa.png' %}" alt="Mapa">
+          <p>Mapa</p>
+        </a>
       </div>
-      <div class="card">
-        <img src="enemigos.jpg" alt="Enemigos">
-        <p>Enemigos</p>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="#" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/Enemigos.jpg' %}" alt="Enemigos">
+          <p>Enemigos</p>
+        </a>
       </div>
-      <div class="card">
-        <img src="construcciones.jpg" alt="Construcciones">
-        <p>Construcciones</p>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="#" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/construcciones.jpg'%}" alt="Construcciones">
+          <p>Construcciones</p>
+        </a>
       </div>
-      <div class="card">
-        <img src="plantas.jpg" alt="Plantas">
-        <p>Plantas</p>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="#" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/plantas.jpg'%}" alt="Plantas">
+          <p>Plantas</p>
+        </a>
       </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="#" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/objetos.png'%}" alt="Objetos">
+          <p>Objetos</p>
+        </a>
+      </div>
+
     </div>
   </div>
 
   <footer>
-    CALL SUPPORT OR EMAIL | FONO: 222222345 | EMAIL: TFW@WIKIME.COM<br/>
-    COPYRIGHT 2025 THE FOREST WIKI
+    <div class="footer-imgs">
+      <img src="{% static 'img/facebook.png' %}" alt="Facebook">
+      <img src="{% static 'img/instagram.png' %}" alt="Instagram">
+      <img src="{% static 'img/twitter.png' %}" alt="Twitter">
+    </div>
+    <div class="footer-texto">
+      The Forest Wiki © 2025 - Todos los derechos reservados<br/>
+      
+    </div>
   </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
