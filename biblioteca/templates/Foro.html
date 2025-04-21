@@ -296,20 +296,21 @@
     <h1 class="Pp0 Pp0-white">🌲Foro Comunidad🌲</h1>
 
     {% if user.is_authenticated %}
-  <form method="post" class="formulario-publicacion">
-    {% csrf_token %}
-    <input type="text" value="{{ user.username }}" readonly>
+    <form method="post" class="formulario-publicacion">
+      {% csrf_token %}
+      <input type="text" name="titulo" placeholder="Título de la publicación" class="form-control bg-secondary text-white mb-3 border-0" required>
+      <input type="text" value="{{ user.username }} (Autor)" readonly class="form-control bg-secondary text-white mb-3 border-0">
     
-    <select name="categoria" required>
-      <option value="" disabled selected>Selecciona una categoría</option>
-      {% for cat in categorias %}
-        <option value="{{ cat.id_categoria }}">{{ cat.nombre_categoria }}</option>
-      {% endfor %}
-    </select>
+      <select name="categoria" required class="form-control bg-secondary text-white mb-3 border-0">
+        <option value="" disabled selected>Selecciona una categoría</option>
+        {% for cat in categorias %}
+          <option value="{{ cat.id_categoria }}">{{ cat.nombre_categoria }}</option>
+        {% endfor %}
+      </select>
     
-    <textarea name="contenido" rows="4" placeholder="Escribe tu consulta..." required></textarea>
-    <button type="submit">Publicar</button>
-  </form>
+      <textarea name="contenido" rows="4" placeholder="Escribe tu publicación..." class="form-control bg-secondary text-white mb-3 border-0" required></textarea>
+      <button type="submit" class="btn btn-warning w-100 fw-bold">Publicar</button>
+    </form>
 {% else %}
   <div class="formulario-publicacion" style="text-align: center;">
     <p>🔒 Debes <a href="{% url 'inicio_sesion' %}" style="color: #ffd700;">iniciar sesión</a> para publicar en el foro.</p>

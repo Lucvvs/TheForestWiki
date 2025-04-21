@@ -25,6 +25,7 @@ def foro(request):
         publicaciones = Publicacion.objects.select_related('usuario', 'categoria').order_by('-fecha_creacion')
 
     if request.method == 'POST' and request.user.is_authenticated:
+        titulo = request.POST.get('titulo')
         contenido = request.POST.get('contenido')
         categoria_id = request.POST.get('categoria')
         usuario = request.user
@@ -32,11 +33,11 @@ def foro(request):
         if contenido and categoria_id and usuario:
             categoria = Categoria.objects.get(pk=categoria_id)
             Publicacion.objects.create(
-                titulo=contenido[:100],
-                contenido=contenido,
-                usuario=usuario,
-                categoria=categoria
-            )
+    titulo=titulo,
+    contenido=contenido,
+    usuario=usuario,
+    categoria=categoria
+)
             return redirect('foro')
 
     # Conteo de reacciones agrupadas por publicación y tipo
@@ -73,10 +74,17 @@ def publicacion_detalle(request, id):
             )
             return redirect('publicacion_detalle', id=id)
 
+    comentarios_reacciones = {}
+    for c in comentarios:
+        likes = c.reacciones.filter(tipo_reaccion__nombre_tipo='Like').count()
+        dislikes = c.reacciones.filter(tipo_reaccion__nombre_tipo='Dislike').count()
+        comentarios_reacciones[c.id_comentario] = {'Like': likes, 'Dislike': dislikes}
+
     return render(request, 'detalle_publicacion.html', {
         'publicacion': publicacion,
         'comentarios': comentarios,
-        'reacciones': reacciones
+        'reacciones': reacciones,
+        'comentarios_reacciones': comentarios_reacciones
     })
 
 
