@@ -156,6 +156,74 @@
 }
 
 
+/* estilo publicaciones */
+
+.cuadro-publicaciones {
+  background-color: #111;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.foro-post {
+  
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-left: 4px solid #ffd700;
+  padding: 15px 20px;
+  border-radius: 8px;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.foro-post:hover {
+  background-color: #222;
+  transform: translateY(-2px);
+}
+
+.foro-post strong {
+  color: #ffd700;
+  font-size: 16px;
+}
+
+.foro-post em {
+  color: #aaa;
+  font-style: normal;
+  margin-left: 10px;
+}
+
+.foro-post p {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: #eee;
+}
+
+.foro-post small {
+  color: #777;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .foro-post {
+    padding: 12px 14px;
+  }
+
+  .foro-post strong {
+    font-size: 14px;
+  }
+
+  .foro-post p {
+    font-size: 15px;
+  }
+
+  .foro-post small {
+    font-size: 11px;
+  }
+}
+
+
 
 
     @media (min-width: 768px) {
@@ -176,10 +244,26 @@
         flex: 1 1 100%;
       }
 
-      .foro-post {
-        max-width: 500px;
-      }
     }
+
+/* ANIMACION CATEGORIA */
+/* ANIMACION CATEGORIA */
+/* ANIMACION CATEGORIA */
+
+    @keyframes latido {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.95); }
+  50% { transform: scale(1); }
+  75% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.btn-categoria.active {
+  background-color: #ffd700;
+  color: #111;
+  border-color: #ffd700;
+  animation: latido 1s infinite;
+}
 
 
   </style>
@@ -224,23 +308,36 @@
     <div class="foro-lista">
       <h2>Temas / Contenido</h2>
       <div class="categorias-foro">
-        <button class="btn-categoria" onclick="mostrarSubcategoria('todo')">📚 Todo</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('animales')">🐾 Animales</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('mapa')">🗺️ Mapa</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('enemigos')">👹 Enemigos</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('construcciones')">🏗️ Construcciones</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('plantas')">🌿 Plantas</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('comunidad')">💬 Comunidad</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('bugs')">🐞 Bugs</button>
-        <button class="btn-categoria" onclick="mostrarSubcategoria('bugs')">🛠️ Objetos</button>
+        <button class="btn-categoria {% if categoria_actual == 'todo' %}active{% endif %}" onclick="location.href='?categoria=todo'">📚 Todo</button>
+        <button class="btn-categoria {% if categoria_actual == 'Animales' %}active{% endif %}" onclick="location.href='?categoria=Animales'">🐾 Animales</button>
+        <button class="btn-categoria {% if categoria_actual == 'Mapa' %}active{% endif %}" onclick="location.href='?categoria=Mapa'">🗺️ Mapa</button>
+        <button class="btn-categoria {% if categoria_actual == 'Enemigos' %}active{% endif %}" onclick="location.href='?categoria=Enemigos'">👹 Enemigos</button>
+        <button class="btn-categoria {% if categoria_actual == 'Construcciones' %}active{% endif %}" onclick="location.href='?categoria=Construcciones'">🏗️ Construcciones</button>
+        <button class="btn-categoria {% if categoria_actual == 'Plantas' %}active{% endif %}" onclick="location.href='?categoria=Plantas'">🌿 Plantas</button>
+        <button class="btn-categoria {% if categoria_actual == 'Comunidad' %}active{% endif %}" onclick="location.href='?categoria=Comunidad'">💬 Comunidad</button>
+        <button class="btn-categoria {% if categoria_actual == 'Bugs' %}active{% endif %}" onclick="location.href='?categoria=Bugs'">🐞 Bugs</button>
+        <button class="btn-categoria {% if categoria_actual == 'Objetos' %}active{% endif %}" onclick="location.href='?categoria=Objetos'">🛠️ Objetos</button>
 
       </div>
-
+      
       <div id="subcategorias" class="cuadro-publicaciones" style="margin-top: 40px;">
         <h3 style="color: #ffd700;">Publicaciones </h3>
-        <div class="publicaciones-placeholder">
-          <p style="color: #aaa;">Aquí aparecerán las publicaciones de la categoría seleccionada.</p>
-        </div>
+      
+        {% if publicaciones %}
+          {% for pub in publicaciones %}
+          <a href="{% url 'publicacion_detalle' pub.id_publicacion %}" style="text-decoration: none; color: inherit;">
+            <div class="foro-post">
+              <strong>{{ pub.usuario.nombre_usuario }}</strong> - <em>{{ pub.categoria.nombre_categoria }}</em>
+              <p>{{ pub.contenido|truncatechars:150 }}</p>
+              <small>{{ pub.fecha_creacion|date:"d M Y H:i" }}</small>
+            </div>
+          </a>
+          {% endfor %}
+        {% else %}
+          <div class="publicaciones-placeholder">
+            <p style="color: #aaa;">No hay publicaciones aún.</p>
+          </div>
+        {% endif %}
       </div>
     </div> <!-- cierre de .foro-lista -->
 
