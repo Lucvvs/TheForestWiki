@@ -1,28 +1,5 @@
 from django.db import models
-
-class TipoUsuario(models.Model):
-    id_tipo = models.AutoField(primary_key=True)
-    nombre_tipo = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.nombre_tipo
-
-
-class Usuario(models.Model):
-    id_usuario = models.AutoField(primary_key=True)
-    nombre_completo = models.CharField(max_length=100)
-    nombre_usuario = models.CharField(max_length=50, unique=True)
-    correo = models.EmailField(unique=True)
-    contrasena = models.CharField(max_length=128)
-    tipo_usuario = models.ForeignKey(
-        TipoUsuario,
-        on_delete=models.CASCADE,
-        related_name="usuarios"
-    )
-
-    def __str__(self):
-        return self.nombre_usuario
-
+from django.contrib.auth.models import User  # 👈 Importar modelo User
 
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)
@@ -38,7 +15,7 @@ class Publicacion(models.Model):
     contenido = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(
-        Usuario,
+        User,
         on_delete=models.CASCADE,
         related_name="publicaciones"
     )
@@ -51,6 +28,7 @@ class Publicacion(models.Model):
     def __str__(self):
         return self.titulo
 
+
 class Juego(models.Model):
     id_juego = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -60,13 +38,12 @@ class Juego(models.Model):
         return self.nombre
 
 
-
 class Comentario(models.Model):
     id_comentario = models.AutoField(primary_key=True)
     contenido = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     usuario = models.ForeignKey(
-        Usuario,
+        User,
         on_delete=models.CASCADE,
         related_name="comentarios"
     )
@@ -98,7 +75,7 @@ class TipoReaccion(models.Model):
 class Reaccion(models.Model):
     id_reaccion = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(
-        Usuario,
+        User,
         on_delete=models.CASCADE,
         related_name="reacciones"
     )
@@ -119,6 +96,30 @@ class Reaccion(models.Model):
 
     def __str__(self):
         return f"{self.tipo_reaccion} de {self.usuario} en '{self.publicacion}'"
+    
+class ReaccionComentario(models.Model):
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="reacciones_comentario"
+    )
+    comentario = models.ForeignKey(
+        Comentario,
+        on_delete=models.CASCADE,
+        related_name="reacciones"
+    )
+    tipo_reaccion = models.ForeignKey(
+        TipoReaccion,
+        on_delete=models.CASCADE,
+        related_name="reacciones_comentario"
+    )
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('usuario', 'comentario', 'tipo_reaccion')
+
+    def __str__(self):
+        return f"{self.tipo_reaccion} de {self.usuario} en comentario ID {self.comentario.id_comentario}"
 
 
 class VersionJuego(models.Model):
@@ -134,7 +135,7 @@ class VersionJuego(models.Model):
 class Venta(models.Model):
     id_venta = models.AutoField(primary_key=True)
     usuario = models.ForeignKey(
-        Usuario,
+        User,
         on_delete=models.CASCADE,
         related_name="ventas"
     )

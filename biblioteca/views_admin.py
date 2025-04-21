@@ -2,12 +2,8 @@ from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from .models import Publicacion, Usuario
-
-
-
-
-
+from django.contrib.auth.models import User  # ✅ Usamos el modelo de Django
+from .models import Publicacion
 
 
 # 🔒 Mixin: Solo admins
@@ -21,7 +17,7 @@ class SoloAdmins(LoginRequiredMixin, UserPassesTestMixin):
 
 # 👤 Gestión de usuarios
 class AdminUsuarioList(SoloAdmins, ListView):
-    model = Usuario
+    model = User  # ✅ Cambiado a User de Django
     template_name = 'admin/usuarios_admin.html'
     context_object_name = 'usuarios'
 

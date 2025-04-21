@@ -1,4 +1,5 @@
 {% load static %}
+{% load reaccion_tags %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -279,31 +280,41 @@
     <nav>
       <a href="{% url 'index' %}">Inicio</a>
       <a href="{% url 'foro' %}">Foro</a>
-      <a href="{% url 'registro' %}">Registrarse</a>
-      <a href="{% url 'inicio_sesion' %}">Iniciar Sesión</a>
+      {% if user.is_authenticated %}
+        <span style="color: #ffd700; font-weight: bold; margin-left: 10px;">
+          👤 {{ user.username }}
+        </span>
+        <a href="{% url 'logout' %}" style="margin-left: 10px;">Cerrar sesión</a>
+      {% else %}
+        <a href="{% url 'registro' %}">Registrarse</a>
+        <a href="{% url 'inicio_sesion' %}">Iniciar Sesión</a>
+      {% endif %}
     </nav>
   </header>
 
   <div class="container">
     <h1 class="Pp0 Pp0-white">🌲Foro Comunidad🌲</h1>
 
-    <form class="formulario-publicacion">
-      <input type="text" id="autor" placeholder="Nombre Usuario">
-      <select id="categoria">
-        <option value="" disabled selected>Selecciona una categoría</option>
-        <option value="Animales">Animales</option>
-        <option value="Mapa">Mapa</option>
-        <option value="Enemigos">Enemigos</option>
-        <option value="Construcciones">Construcciones</option>
-        <option value="Plantas">Plantas</option>
-        <option value="Comunidad">Comunidad</option>
-        <option value="Comunidad">Bugs</option>
-        <option value="Comunidad">Objetos</option>
-
-      </select>
-      <textarea id="contenido" rows="4" placeholder="Consulta..."></textarea>
-      <button type="button" onclick="publicarPost()">Publicar</button>
-    </form>
+    {% if user.is_authenticated %}
+  <form method="post" class="formulario-publicacion">
+    {% csrf_token %}
+    <input type="text" value="{{ user.username }}" readonly>
+    
+    <select name="categoria" required>
+      <option value="" disabled selected>Selecciona una categoría</option>
+      {% for cat in categorias %}
+        <option value="{{ cat.id_categoria }}">{{ cat.nombre_categoria }}</option>
+      {% endfor %}
+    </select>
+    
+    <textarea name="contenido" rows="4" placeholder="Escribe tu consulta..." required></textarea>
+    <button type="submit">Publicar</button>
+  </form>
+{% else %}
+  <div class="formulario-publicacion" style="text-align: center;">
+    <p>🔒 Debes <a href="{% url 'inicio_sesion' %}" style="color: #ffd700;">iniciar sesión</a> para publicar en el foro.</p>
+  </div>
+{% endif %}
 
     <div class="foro-lista">
       <h2>Temas / Contenido</h2>
@@ -325,13 +336,20 @@
       
         {% if publicaciones %}
           {% for pub in publicaciones %}
-          <a href="{% url 'publicacion_detalle' pub.id_publicacion %}" style="text-decoration: none; color: inherit;">
-            <div class="foro-post">
-              <strong>{{ pub.usuario.nombre_usuario }}</strong> - <em>{{ pub.categoria.nombre_categoria }}</em>
-              <p>{{ pub.contenido|truncatechars:150 }}</p>
-              <small>{{ pub.fecha_creacion|date:"d M Y H:i" }}</small>
-            </div>
-          </a>
+            <a href="{% url 'publicacion_detalle' pub.id_publicacion %}" style="text-decoration: none; color: inherit;">
+              <div class="foro-post">
+                <strong>{{ pub.usuario.username }}</strong> - <em>{{ pub.categoria.nombre_categoria }}</em>
+                <p>{{ pub.contenido|truncatechars:150 }}</p>
+                <small>{{ pub.fecha_creacion|date:"d M Y H:i" }}</small>
+      
+                {% with conteo_reacciones|get_item:pub.id_publicacion as reaccion_pub %}
+  <div style="margin-top: 10px; font-size: 14px; color: #aaa;">
+    👍 Likes: {% if reaccion_pub %}{{ reaccion_pub|get_item:"Like"|default:0 }}{% else %}0{% endif %} |
+    👎 Dislikes: {% if reaccion_pub %}{{ reaccion_pub|get_item:"Dislike"|default:0 }}{% else %}0{% endif %}
+  </div>
+{% endwith %}
+              </div>
+            </a>
           {% endfor %}
         {% else %}
           <div class="publicaciones-placeholder">

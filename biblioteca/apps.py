@@ -6,3 +6,6 @@ class BibliotecaConfig(AppConfig):
 
     def ready(self):
         import biblioteca.signals
+
+
+        

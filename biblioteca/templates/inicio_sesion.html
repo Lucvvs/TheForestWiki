@@ -49,8 +49,16 @@
     <nav>
       <a href="{% url 'index' %}">Inicio</a>
       <a href="{% url 'foro' %}">Foro</a>
-      <a href="{% url 'registro' %}">Registrarse</a>
-      <a href="{% url 'inicio_sesion' %}">Iniciar Sesión</a>
+    
+      {% if user.is_authenticated %}
+        <span style="color: #ffd700; font-weight: bold; margin-left: 10px;">
+          👤 {{ user.username }}
+        </span>
+        <a href="{% url 'logout' %}" style="margin-left: 10px;">Cerrar sesión</a>
+      {% else %}
+        <a href="{% url 'registro' %}">Registrarse</a>
+        <a href="{% url 'inicio_sesion' %}">Iniciar Sesión</a>
+      {% endif %}
     </nav>
   </header>
 
@@ -60,8 +68,15 @@
       <div class="col-12 col-sm-8 col-md-6 col-lg-4">
         <div class="bg-dark rounded shadow p-4 formulario-publicacion">
           <h2 class="text-center mb-4" style="color: #ffd700;">Iniciar Sesión</h2>
-          <form action="#" method="POST" autocomplete="off">
-            {% csrf_token %}
+
+          {% if messages %}
+  <div class="text-warning text-center mb-3">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  </div>
+{% endif %}
+          <form method="POST" autocomplete="off">            {% csrf_token %}
             <input type="text" id="usuario" name="usuario" class="form-control bg-secondary text-white mb-3 border-0" placeholder="Usuario" required>
             <input type="password" id="contrasena" name="contrasena" class="form-control bg-secondary text-white mb-3 border-0" placeholder="Contraseña" required>
             <button type="submit" class="btn btn-warning w-100 fw-bold">Ingresar</button>
