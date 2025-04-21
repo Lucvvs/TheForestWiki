@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages 
 
 def index(request):
     return render(request, 'index.html')
 
 def registro(request):
+    if request.method == 'POST':
+        # Aquí iría la lógica de registro real, pero por ahora solo mostramos el mensaje
+        messages.success(request, '¡Registro exitoso! Disfruta la experiencia.')
+        return redirect('registro')  # Redirige para evitar el reenvío del formulario
     return render(request, 'registro.html')
 
 def foro(request):
