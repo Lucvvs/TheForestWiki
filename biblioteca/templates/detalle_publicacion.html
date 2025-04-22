@@ -107,6 +107,7 @@ h3, h4 {
   margin-bottom: 30px;
 }
 
+
 .reaccion {
   background-color: #222;
   padding: 10px 15px;
@@ -154,6 +155,34 @@ h3, h4 {
   margin-bottom: 10px;
 }
 
+@keyframes vibrar-y-latir {
+  0% {
+    transform: scale(1);
+    background-color: #000000a2;
+    color: #111;
+  }
+  25% {
+    transform: scale(1.05) translateX(-1px);
+    background-color: #ffb300;
+  }
+  50% {
+    transform: scale(0.95) translateX(1px);
+    background-color: #000000a2;
+  }
+  75% {
+    transform: scale(1.05) translateX(-1px);
+    background-color: #ffaa00;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #ffc107;
+  }
+}
+
+.boton-vibrador:hover {
+  animation: vibrar-y-latir 0.5s ease-in-out;
+}
+
 .form-comentario button {
   background-color: #ffd700;
   color: #000;
@@ -185,9 +214,9 @@ h3, h4 {
           <a href="{% url 'index' %}">Inicio</a>
           <a href="{% url 'foro' %}">Foro</a>
           {% if user.is_authenticated %}
-            <span style="color: #ffd700; font-weight: bold; margin-left: 10px;">
-              👤 {{ user.username }}
-            </span>
+          <a href="{% url 'mi_cuenta' %}" class="btn btn-sm fw-bold boton-vibrador" style="margin-left: 10px; color: #ffd700; background: transparent; border: none;">
+            👤 {{ user.username }}
+          </a>
             <a href="{% url 'logout' %}" style="margin-left: 10px;">Cerrar sesión</a>
           {% else %}
             <a href="{% url 'registro' %}">Registrarse</a>
@@ -209,19 +238,23 @@ h3, h4 {
     </div>
 
     <div class="reacciones">
-      {% for reaccion in reacciones %}
-        <div class="reaccion">
-          {% if reaccion.tipo_reaccion__nombre_tipo == 'Positiva' %}
-            👍 {{ reaccion.total }}
-          {% elif reaccion.tipo_reaccion__nombre_tipo == 'Negativa' %}
-            👎 {{ reaccion.total }}
-          {% else %}
-            {{ reaccion.tipo_reaccion__nombre_tipo }}: {{ reaccion.total }}
-          {% endif %}
-        </div>
-      {% empty %}
-        <p style="color: #777;">Aún no hay reacciones.</p>
-      {% endfor %}
+      {% if reacciones %}
+  {% for reaccion in reacciones %}
+    <div class="reaccion">
+      {% with tipo=reaccion.tipo_reaccion__nombre_tipo %}
+        {% if tipo == 'Like' %}
+          👍 {{ reaccion.total }}
+        {% elif tipo == 'Dislike' %}
+          👎 {{ reaccion.total }}
+        {% else %}
+          {{ tipo }}: {{ reaccion.total }}
+        {% endif %}
+      {% endwith %}
+    </div>
+  {% endfor %}
+{% else %}
+  <p style="color: #777;">Aún no hay reacciones.</p>
+{% endif %}
     </div>
 
     <div class="comentarios mt-5">
@@ -271,5 +304,36 @@ h3, h4 {
     </div>
   </footer>
   
+
+  <script>
+    function toggleReaccion(pubId, tipo, btn) {
+      fetch("{% url 'reaccion_ajax' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `publicacion_id=${pubId}&tipo=${tipo}`
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const parent = btn.closest('[data-pub-id]');
+          parent.querySelector('.like-count').innerText = data.likes;
+          parent.querySelector('.dislike-count').innerText = data.dislikes;
+  
+          parent.querySelector('.btn-like')?.classList.remove('active');
+          parent.querySelector('.btn-dislike')?.classList.remove('active');
+  
+          if (data.user_reaccion === "Like") {
+            parent.querySelector('.btn-like')?.classList.add('active');
+          } else if (data.user_reaccion === "Dislike") {
+            parent.querySelector('.btn-dislike')?.classList.add('active');
+          }
+        }
+      });
+    }
+  </script>
+
 </body>
 </html>

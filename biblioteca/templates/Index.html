@@ -70,6 +70,37 @@
       text-align: center;
     }
 
+
+ /* ANIMACION CATEGORIA */
+
+@keyframes vibrar-y-latir {
+  0% {
+    transform: scale(1);
+    background-color: #000000a2;
+    color: #111;
+  }
+  25% {
+    transform: scale(1.05) translateX(-1px);
+    background-color: #ffb300;
+  }
+  50% {
+    transform: scale(0.95) translateX(1px);
+    background-color: #000000a2;
+  }
+  75% {
+    transform: scale(1.05) translateX(-1px);
+    background-color: #ffaa00;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #ffc107;
+  }
+}
+
+.boton-vibrador:hover {
+  animation: vibrar-y-latir 0.5s ease-in-out;
+}   
+
 /* CARTAS DE CONTENIDO STYLE */
 
 .card-custom {
@@ -157,9 +188,9 @@
       <a href="{% url 'index' %}">Inicio</a>
       <a href="{% url 'foro' %}">Foro</a>
       {% if user.is_authenticated %}
-        <span style="color: #ffd700; font-weight: bold; margin-left: 10px;">
-          👤 {{ user.username }}
-        </span>
+      <a href="{% url 'mi_cuenta' %}" class="btn btn-sm fw-bold boton-vibrador" style="margin-left: 10px; color: #ffd700; background: transparent; border: none;">
+        👤 {{ user.username }}
+      </a>
         <a href="{% url 'logout' %}" style="margin-left: 10px;">Cerrar sesión</a>
       {% else %}
         <a href="{% url 'registro' %}">Registrarse</a>
@@ -181,42 +212,41 @@
     <h2 class="Pp1">CONTENIDO THE FOREST</h2>  
     <div class="row g-4 justify-content-center">
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="card-custom d-block text-decoration-none">
+        <a href="{% url 'foro' %}?categoria=Animales#subcategorias" class="card-custom d-block text-decoration-none">
           <img src="{% static 'img/animal.jpg' %}" alt="Animales">
           <p>Animales</p>
         </a>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="card-custom d-block text-decoration-none">
+        <a href="{% url 'foro' %}?categoria=Mapa#subcategorias" class="card-custom d-block text-decoration-none">
           <img src="{% static 'img/mapa.png' %}" alt="Mapa">
           <p>Mapa</p>
         </a>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="card-custom d-block text-decoration-none">
+        <a href="{% url 'foro' %}?categoria=Enemigos#subcategorias" class="card-custom d-block text-decoration-none">
           <img src="{% static 'img/Enemigos.jpg' %}" alt="Enemigos">
           <p>Enemigos</p>
         </a>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="card-custom d-block text-decoration-none">
-          <img src="{% static 'img/construcciones.jpg'%}" alt="Construcciones">
+        <a href="{% url 'foro' %}?categoria=Construcciones#subcategorias" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/construcciones.jpg' %}" alt="Construcciones">
           <p>Construcciones</p>
         </a>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="card-custom d-block text-decoration-none">
-          <img src="{% static 'img/plantas.jpg'%}" alt="Plantas">
+        <a href="{% url 'foro' %}?categoria=Plantas#subcategorias" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/plantas.jpg' %}" alt="Plantas">
           <p>Plantas</p>
         </a>
       </div>
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="card-custom d-block text-decoration-none">
-          <img src="{% static 'img/objetos.png'%}" alt="Objetos">
+        <a href="{% url 'foro' %}?categoria=Objetos#subcategorias" class="card-custom d-block text-decoration-none">
+          <img src="{% static 'img/objetos.png' %}" alt="Objetos">
           <p>Objetos</p>
         </a>
       </div>
-
     </div>
   </div>
 

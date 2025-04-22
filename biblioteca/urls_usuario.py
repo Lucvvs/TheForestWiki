@@ -12,8 +12,11 @@ urlpatterns = [
     path('compra/', views.compra, name='compra'),
     path('pagar/', views.pagar, name='pagar'),
     path('carrito/', views.carrito, name='carrito'),
-path('publicacion/<int:id>/', views.publicacion_detalle, name='publicacion_detalle'),
-path('logout/', views.cerrar_sesion, name='logout'),
+    path('publicacion/<int:id>/', views.publicacion_detalle, name='publicacion_detalle'),
+    path('logout/', views.cerrar_sesion, name='logout'),
+    path('ajax/reaccion/', views.reaccion_ajax, name='reaccion_ajax'),
+    path('recuperar-contrasena/', views.recuperar_contrasena, name='recuperar_contrasena'),
+    
 
 
 ]

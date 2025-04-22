@@ -76,14 +76,20 @@
     {% endfor %}
   </div>
 {% endif %}
-          <form method="POST" autocomplete="off">            {% csrf_token %}
-            <input type="text" id="usuario" name="usuario" class="form-control bg-secondary text-white mb-3 border-0" placeholder="Usuario" required>
-            <input type="password" id="contrasena" name="contrasena" class="form-control bg-secondary text-white mb-3 border-0" placeholder="Contraseña" required>
-            <button type="submit" class="btn btn-warning w-100 fw-bold">Ingresar</button>
-          </form>
-          <div class="text-center mt-3">
-            <span>¿No tienes cuenta? <a href="{% url 'registro' %}" class="text-warning">Regístrate aquí</a></span>
-          </div>
+<form method="POST" autocomplete="off">
+  {% csrf_token %}
+  <input type="text" id="usuario" name="usuario" class="form-control bg-secondary text-white mb-3 border-0" placeholder="Usuario" required>
+  <input type="password" id="contrasena" name="contrasena" class="form-control bg-secondary text-white mb-3 border-0" placeholder="Contraseña" required>
+  <button type="submit" class="btn btn-warning w-100 fw-bold">Ingresar</button>
+</form>
+
+<div class="text-center mt-3">
+  <a href="{% url 'recuperar_contrasena' %}" class="text-warning">¿Olvidaste tu contraseña?</a>
+  <span>¿No tienes cuenta? <a href="{% url 'registro' %}" class="text-warning">Regístrate aquí</a></span>
+</div>
+
+          
+          
         </div>
       </div>
     </div>
