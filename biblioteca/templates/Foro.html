@@ -248,6 +248,40 @@
     }
 
 /* ANIMACION CATEGORIA */
+
+.btn-like, .btn-dislike {
+  margin-top: 10px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-like {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.btn-like:hover {
+  background-color: #388e3c;
+}
+
+.btn-dislike {
+  background-color: #c62828;
+  color: white;
+}
+
+.btn-dislike:hover {
+  background-color: #e53935;
+}
+
+.btn-like.active,
+.btn-dislike.active {
+  box-shadow: 0 0 6px 3px rgba(255, 255, 255, 0.4);
+}
 /* ANIMACION CATEGORIA */
 /* ANIMACION CATEGORIA */
 
@@ -343,11 +377,22 @@
                 <p>{{ pub.contenido|truncatechars:150 }}</p>
                 <small>{{ pub.fecha_creacion|date:"d M Y H:i" }}</small>
       
-                {% with conteo_reacciones|get_item:pub.id_publicacion as reaccion_pub %}
-  <div style="margin-top: 10px; font-size: 14px; color: #aaa;">
-    👍 Likes: {% if reaccion_pub %}{{ reaccion_pub|get_item:"Like"|default:0 }}{% else %}0{% endif %} |
-    👎 Dislikes: {% if reaccion_pub %}{{ reaccion_pub|get_item:"Dislike"|default:0 }}{% else %}0{% endif %}
-  </div>
+                {% with reaccion_pub=conteo_reacciones|get_item:pub.id_publicacion %}
+  {% if reaccion_pub %}
+    <div class="d-flex gap-2 mt-2">
+      <button type="button" class="btn btn-sm btn-like" disabled>
+        👍 {{ reaccion_pub|get_item:"Like"|default:0 }}
+      </button>
+      <button type="button" class="btn btn-sm btn-dislike" disabled>
+        👎 {{ reaccion_pub|get_item:"Dislike"|default:0 }}
+      </button>
+    </div>
+  {% else %}
+    <div class="d-flex gap-2 mt-2">
+      <button type="button" class="btn btn-sm btn-like" disabled>👍 0</button>
+      <button type="button" class="btn btn-sm btn-dislike" disabled>👎 0</button>
+    </div>
+  {% endif %}
 {% endwith %}
               </div>
             </a>
